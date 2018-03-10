@@ -1,0 +1,17 @@
+For runtime permissions in Activity 
+ActivityCompat.requestPermissions(MainActivity.this
+            new String[]{permission.READ_EXTERNAL_STORAGE},
+            REQUEST_CODE_GALLERY
+        );)
+       
+For runtime permission in Fragment:
+requestPermissions(
+            new String[]{permission.READ_EXTERNAL_STORAGE},
+            REQUEST_CODE_GALLERY
+        );
+        
+       
+       
+And then onRequestPermissionsResult(){}
+onActivityResult{}
+Works..... in Fragment
