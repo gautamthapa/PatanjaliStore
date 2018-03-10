@@ -1,10 +1,22 @@
 package com.strontech.imgautam.patanjalistorenew.merfragments;
 
 
+import android.Manifest;
+import android.Manifest.permission;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +24,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+import com.strontech.imgautam.patanjalistorenew.MainActivity;
 import com.strontech.imgautam.patanjalistorenew.R;
 import com.strontech.imgautam.patanjalistorenew.helpers.InputValidation;
 import com.strontech.imgautam.patanjalistorenew.model.Product;
 import com.strontech.imgautam.patanjalistorenew.sql.UserDatabaseHelper;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +53,10 @@ public class AddProductFragment extends Fragment implements OnClickListener{
   private TextInputEditText textInputTextProductQuantity;
   private TextInputEditText textInputTextProductDesc;
 
+  private ImageView imageViewProductImage;
+  final int REQUEST_CODE_GALLERY= 999;
+
+  private Button buttonBrowseProductImage;
   private Button buttonAddProduct;
 
   private InputValidation inputValidation;
@@ -78,6 +100,9 @@ public class AddProductFragment extends Fragment implements OnClickListener{
     textInputTextProductQuantity=v.findViewById(R.id.textInputTextProductQuantity);
     textInputTextProductDesc=v.findViewById(R.id.textInputTextProductDesc);
 
+    imageViewProductImage=v.findViewById(R.id.imageViewProductImage);
+
+    buttonBrowseProductImage=v.findViewById(R.id.buttonBrowseProductImage);
     buttonAddProduct=v.findViewById(R.id.buttonAddProduct);
   }
 
@@ -87,6 +112,7 @@ public class AddProductFragment extends Fragment implements OnClickListener{
   */
   private void initListeners(){
     buttonAddProduct.setOnClickListener(this);
+    buttonBrowseProductImage.setOnClickListener(this);
   }
 
 
@@ -107,9 +133,65 @@ public class AddProductFragment extends Fragment implements OnClickListener{
       case R.id.buttonAddProduct:
         postDataToSQLite();
         break;
+      case R.id.buttonBrowseProductImage:
+
+        //For Runtime Permission (In fragment)
+        requestPermissions(
+            new String[]{permission.READ_EXTERNAL_STORAGE},
+            REQUEST_CODE_GALLERY
+        );
+
+        break;
     }
   }
 
+
+  /**
+   * For Requested permission result
+   * */
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+      @NonNull int[] grantResults) {
+
+
+    if (requestCode == REQUEST_CODE_GALLERY){
+      if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+        Intent intent=new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+       startActivityForResult(intent, REQUEST_CODE_GALLERY);
+      }
+      else {
+        Toast.makeText(getActivity(), "You don't have permission to the file location!", Toast.LENGTH_SHORT).show();
+      }
+      return;
+    }
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+  }
+
+
+  /**
+   * This onActivityResult for set image get from gallery to imageView
+   * */
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    Toast.makeText(getActivity(), "onActivityResult", Toast.LENGTH_SHORT).show();
+
+    if (requestCode == REQUEST_CODE_GALLERY && resultCode == Activity.RESULT_OK && data !=null){
+      Uri uri=data.getData();
+
+      try {
+        InputStream inputStream=getActivity().getContentResolver().openInputStream(uri);
+
+        Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
+        imageViewProductImage.setImageBitmap(bitmap);
+      } catch (FileNotFoundException e) {
+          e.printStackTrace();
+      }
+    }
+
+    super.onActivityResult(requestCode, resultCode, data);
+  }
 
   /**
    * This method is to validate the input text fields and post data to SQLite
@@ -124,7 +206,7 @@ public class AddProductFragment extends Fragment implements OnClickListener{
     if (!inputValidation.isInputEditTextFilled(textInputTextProductQuantity, textInputLayoutProductQuantity, "Please enter Product Quantity")){
       return;
     }
-    if (!inputValidation.isInputEditTextFilled(textInputTextProductDesc, textInputLayoutProductQuantity, "Please enter Product Description")){
+    if (!inputValidation.isInputEditTextFilled(textInputTextProductDesc, textInputLayoutProductDesc, "Please enter Product Description")){
       return;
     }
 
@@ -132,11 +214,29 @@ public class AddProductFragment extends Fragment implements OnClickListener{
     product.setProduct_price(textInputTextProductPrice.getText().toString().trim());
     product.setProduct_qauntity(textInputTextProductQuantity.getText().toString().trim());
     product.setProduct_desc(textInputTextProductDesc.getText().toString().trim());
+
+    product.setProduct_image(imageViewToByte(imageViewProductImage));
     databaseHelper.addProduct(product);
 
     // Snack Bar to show success message that record saved successfully
     Snackbar.make(linearLayout, "Product added successfully.", Snackbar.LENGTH_LONG).show();
     emptyInputEditText();
+  }
+
+
+  /**
+   * This method for Converting imageView to byte
+   *
+   * @param image
+   * */
+  public byte[] imageViewToByte(ImageView image){
+
+    Bitmap bitmap=((BitmapDrawable)image.getDrawable()).getBitmap();
+    ByteArrayOutputStream stream=new ByteArrayOutputStream();
+    bitmap.compress(CompressFormat.WEBP,100,stream);
+    byte[] byteArray=stream.toByteArray();
+    return byteArray;
+
   }
 
 

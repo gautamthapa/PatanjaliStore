@@ -25,7 +25,10 @@ public class FirstActivity extends AppCompatActivity {
         {
             getSupportActionBar().hide();
         }
-
+        FragmentTransaction ft=getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.first_layout,new LoginFragment());
+        ft.addToBackStack("hello");
+        ft.commit();
 
     }
 }

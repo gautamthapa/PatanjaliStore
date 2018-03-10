@@ -10,8 +10,19 @@ public class Product {
   private String product_price;
   private String product_qauntity;
   private String product_desc;
+  private byte[] product_image;
 
   public Product() {
+  }
+
+  public Product(int p_id, String product_name, String product_price,
+      String product_qauntity, String product_desc, byte[] product_image) {
+    this.p_id = p_id;
+    this.product_name = product_name;
+    this.product_price = product_price;
+    this.product_qauntity = product_qauntity;
+    this.product_desc = product_desc;
+    this.product_image = product_image;
   }
 
   public int getP_id() {
@@ -52,5 +63,13 @@ public class Product {
 
   public void setProduct_desc(String product_desc) {
     this.product_desc = product_desc;
+  }
+
+  public byte[] getProduct_image() {
+    return product_image;
+  }
+
+  public void setProduct_image(byte[] product_image) {
+    this.product_image = product_image;
   }
 }

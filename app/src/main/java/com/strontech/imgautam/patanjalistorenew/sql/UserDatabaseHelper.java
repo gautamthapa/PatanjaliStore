@@ -22,7 +22,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
 
   //Define DB schema
   private static final String DATABASE_NAME = "userManager";
-  private static final int DATABASE_VERSION = 1;
+  private static final int DATABASE_VERSION = 3;
   private static final String TABLE_USER = "user";
 
 
@@ -43,6 +43,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
   private static final String COLUMN_PRODUCT_PRICE = "product_price";
   private static final String COLUMN_PRODUCT_QUANTITY = "product_quantity";
   private static final String COLUMN_PRODUCT_DESC = "product_desc";
+  private static final String COLUMN_PRODUCT_IMAGE = "product_image";
 
   //create user_table query
   private static final String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + " ("
@@ -57,7 +58,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
   private static final String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + " ("
       + COLUMN_PID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_PRODUCT_NAME
       + " TEXT, " + COLUMN_PRODUCT_PRICE + " TEXT, " + COLUMN_PRODUCT_QUANTITY
-      + " TEXT, " + COLUMN_PRODUCT_DESC + " TEXT);";
+      + " TEXT, " + COLUMN_PRODUCT_DESC + " TEXT, " + COLUMN_PRODUCT_IMAGE + " BLOB);";
 
   //drop product_table query
   private static final String DROP_PRODUCT_TABLE = "DROP TABLE IF EXISTS " + TABLE_PRODUCT;
@@ -333,6 +334,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     values.put(COLUMN_PRODUCT_PRICE, product.getProduct_price());
     values.put(COLUMN_PRODUCT_QUANTITY, product.getProduct_qauntity());
     values.put(COLUMN_PRODUCT_DESC, product.getProduct_desc());
+    values.put(COLUMN_PRODUCT_IMAGE, product.getProduct_image());
 
     //Inserting Row
     db.insert(TABLE_PRODUCT, null, values);
@@ -413,6 +415,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         COLUMN_PRODUCT_NAME,
         COLUMN_PRODUCT_PRICE,
         COLUMN_PRODUCT_QUANTITY,
+        COLUMN_PRODUCT_IMAGE
     };
 
     //sorting orders
@@ -442,6 +445,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
       do {
         Product product = new Product();
         product.setP_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PID))));
+        product.setProduct_image(cursor.getBlob(cursor.getColumnIndex(COLUMN_PRODUCT_IMAGE)));
         product.setProduct_name(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
         product.setProduct_price(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_PRICE)));
         product
