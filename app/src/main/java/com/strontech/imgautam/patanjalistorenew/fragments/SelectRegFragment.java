@@ -88,7 +88,8 @@ public class SelectRegFragment extends Fragment implements OnClickListener{
       case R.id.btn_Uregister:
         FragmentTransaction ft=getFragmentManager().beginTransaction();
         ft.replace(R.id.first_layout, new UserRegisterFragment());
-        ft.addToBackStack("SelectRegister");
+        //ft.addToBackStack("SelectRegister");
+        getFragmentManager().popBackStackImmediate();
         ft.commit();
         break;
       case R.id.btn_Mregister:

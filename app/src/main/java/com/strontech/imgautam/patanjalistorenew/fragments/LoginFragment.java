@@ -169,7 +169,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     if (userDatabaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim(),
         textInputEditTextPassword.getText().toString().trim())) {
       FragmentTransaction ft = getFragmentManager().beginTransaction();
-      ft.replace(R.id.second_layout, new UserMainFragment());
+      ft.replace(R.id.first_layout, new UserMainFragment());
       emptyInputEditText();
       ft.commit();
 

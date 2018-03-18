@@ -82,7 +82,7 @@ public class UserMainFragment extends Fragment {
   /**
    * This method is to fetch all products records from SQLite
    */
-  private void getDataFromSQLite(){
+  public void getDataFromSQLite(){
     // AsyncTask is used that SQLite operation not blocks the UI Thread.
     new AsyncTask<Void, Void, Void>(){
 
