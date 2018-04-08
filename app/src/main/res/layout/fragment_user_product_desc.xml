@@ -1,0 +1,186 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+
+  tools:context="com.strontech.imgautam.patanjalistorenew.userfragments.UserProductDescFragment">
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar"
+    />
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+      android:padding="10dp"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      <TextView
+        android:id="@+id/textViewProductName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Patanjali Saundarya Face Wash"
+        android:textSize="24sp" />
+
+      <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+          android:id="@+id/imageViewProductImage"
+          android:layout_width="match_parent"
+          android:layout_height="240dp"
+          android:src="@drawable/patanjali_dant_kanti" />
+      </android.support.v7.widget.CardView>
+
+      <android.support.v7.widget.CardView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+          android:layout_marginBottom="5dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textColor="@android:color/black"
+            android:textSize="25sp" />
+
+          <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardBackgroundColor="#FF8000">
+
+            <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+              <ImageButton
+                  android:id="@+id/imageButtonMinus"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_delete_black_24dp"
+                android:padding="10dp" />
+
+              <TextView
+                android:id="@+id/textViewQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp" />
+
+              <ImageButton
+                android:id="@+id/imageButtonAdd"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/ic_add_black_24dp" />
+            </LinearLayout>
+          </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Price"
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
+
+          <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="right"
+              android:text="Rs."
+              android:textColor="@android:color/holo_blue_dark"
+              android:textSize="30sp" />
+
+            <TextView
+              android:id="@+id/textViewProductPrice"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="right"
+              android:layout_marginLeft="5dp"
+              android:layout_marginTop="5dp"
+
+              android:textColor="@android:color/holo_blue_dark"
+              android:textSize="30sp" />
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+      </android.support.v7.widget.CardView>
+
+      <android.support.v7.widget.CardView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+          android:layout_marginBottom="5dp"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+          <TextView
+            android:id="@+id/textViewProductDesc"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+        </LinearLayout>
+      </android.support.v7.widget.CardView>
+      <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <Button
+          android:id="@+id/buttonProductBuy"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="#ff8000"
+          android:text="Buy"
+          android:textColor="@android:color/white"
+          android:textSize="20sp" />
+      </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+  </ScrollView>
+
+</LinearLayout>

@@ -353,7 +353,8 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         COLUMN_PRODUCT_NAME,
         COLUMN_PRODUCT_PRICE,
         COLUMN_PRODUCT_QUANTITY,
-        COLUMN_PRODUCT_DESC
+        COLUMN_PRODUCT_DESC,
+        COLUMN_PRODUCT_IMAGE
     };
 
     //sorting orders
@@ -384,6 +385,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         Product product = new Product();
         product.setP_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PID))));
         product.setProduct_name(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
+        product.setProduct_image(cursor.getBlob(cursor.getColumnIndex(COLUMN_PRODUCT_IMAGE)));
         product.setProduct_price(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_PRICE)));
         product
             .setProduct_qauntity(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY)));

@@ -6,12 +6,12 @@ package com.strontech.imgautam.patanjalistorenew.model;
 
 public class UserInfo {
 
-    private int id;
-    private String username;
-    private String password;
-    private String mob_number;
-    private String email;
-    private String address;
+        private int id;
+        private String username;
+        private String password;
+        private String mob_number;
+        private String email;
+        private String address;
 
     public int getId() {
         return id;

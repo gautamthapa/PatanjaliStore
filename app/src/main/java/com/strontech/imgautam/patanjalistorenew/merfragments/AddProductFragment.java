@@ -18,7 +18,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -29,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.strontech.imgautam.patanjalistorenew.MainActivity;
 import com.strontech.imgautam.patanjalistorenew.R;
+import com.strontech.imgautam.patanjalistorenew.fragments.LoginFragment;
 import com.strontech.imgautam.patanjalistorenew.helpers.InputValidation;
 import com.strontech.imgautam.patanjalistorenew.model.Product;
 import com.strontech.imgautam.patanjalistorenew.sql.UserDatabaseHelper;
@@ -65,6 +70,7 @@ public class AddProductFragment extends Fragment implements OnClickListener{
 
   private View v;
 
+  Toolbar toolbar;
   public AddProductFragment() {
     // Required empty public constructor
   }
@@ -88,6 +94,9 @@ public class AddProductFragment extends Fragment implements OnClickListener{
    * This method is to initialize views
    */
   private void initViews(){
+
+    toolbar = v.findViewById(R.id.toolbar);
+
     linearLayout=v.findViewById(R.id.linearLayout);
 
     textInputLayoutProductName=v.findViewById(R.id.textInputLayoutProductName);
@@ -125,6 +134,16 @@ public class AddProductFragment extends Fragment implements OnClickListener{
     inputValidation=new InputValidation(getActivity());
     databaseHelper=new UserDatabaseHelper(getActivity());
     product=new Product();
+
+    getToolbar();
+  }
+
+  /**
+   * This method for setting toolbar
+   */
+  private void getToolbar() {
+    toolbar.setTitle("Add Products");
+    toolbar.inflateMenu(R.menu.user_menu);
   }
 
   @Override

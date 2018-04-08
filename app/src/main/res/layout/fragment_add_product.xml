@@ -3,13 +3,16 @@
   android:id="@+id/linearLayout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:padding="20dp"
   android:orientation="vertical"
   tools:context="com.strontech.imgautam.patanjalistorenew.merfragments.AddProductFragment">
-
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar"
+    />
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="15dp"
     android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
@@ -64,28 +67,28 @@
         android:inputType="textMultiLine"/>
     </android.support.design.widget.TextInputLayout>
     <LinearLayout
-      android:gravity="right"
-      android:layout_marginTop="15dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:gravity="right"
       android:orientation="horizontal">
       <ImageView
-        android:layout_marginRight="40dp"
         android:id="@+id/imageViewProductImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginRight="40dp"
         android:src="@drawable/patanjali_logo"/>
       <Button
         android:id="@+id/buttonBrowseProductImage"
-        android:textColor="@android:color/white"
-        android:paddingRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="#ff8000"
         android:text="Browse Image"
-        android:layout_gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-      </LinearLayout>
+        android:textColor="@android:color/white"/>
+    </LinearLayout>
 
     <android.support.v7.widget.CardView
 

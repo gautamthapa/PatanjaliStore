@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -18,42 +16,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.strontech.imgautam.patanjalistorenew.R;
+import com.strontech.imgautam.patanjalistorenew.adapters.ProductsRecyclerAdapter.ProductViewHolder;
 import com.strontech.imgautam.patanjalistorenew.model.Product;
 import com.strontech.imgautam.patanjalistorenew.userfragments.UserProductDescFragment;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by imgautam on 6/3/18.
+ * Created by imgautam on 20/3/18.
  */
 
-public class ProductsRecyclerAdapter extends
-    RecyclerView.Adapter<ProductsRecyclerAdapter.ProductViewHolder> {
+public class UserProductRecyclerAdapter extends
+    RecyclerView.Adapter<UserProductRecyclerAdapter.ProductViewHolder> {
 
   private List<Product> productList;
 
   Context context;
 
   //make constructor
-  public ProductsRecyclerAdapter(List<Product> productList, Context context) {
+  public UserProductRecyclerAdapter(List<Product> productList, Context context) {
     this.context = context;
     this.productList = productList;
   }
 
   @Override
-  public ProductViewHolder onCreateViewHolder(ViewGroup parent,
+  public UserProductRecyclerAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent,
       int viewType) {
 
     //inflate the recycler item view
 
-    View itemView = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.item_product_recycler, parent, false);
+    View itemView = LayoutInflater
+        .from(parent.getContext()).inflate(R.layout.item_product_recycler, parent, false);
 
-    return new ProductViewHolder(itemView, productList, context);
+    return new UserProductRecyclerAdapter.ProductViewHolder(itemView, productList, context);
   }
 
   @Override
-  public void onBindViewHolder(ProductViewHolder holder, int position) {
+  public void onBindViewHolder(UserProductRecyclerAdapter.ProductViewHolder holder, int position) {
 
     //set the products
     //holder.imageViewProductImage.setImageBitmap(productList.get(position).getProduct_image());
@@ -80,7 +79,7 @@ public class ProductsRecyclerAdapter extends
   /**
    * ViewHolder class
    */
-  class ProductViewHolder extends RecyclerView.ViewHolder {
+  class ProductViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
     public ImageView imageViewProductImage;
 
@@ -91,10 +90,18 @@ public class ProductsRecyclerAdapter extends
 
     List<Product> productList = new ArrayList<Product>();
 
+    Context context;
+    UserProductDescFragment userProductDescFragment;
+
     public ProductViewHolder(View itemView, List<Product> productList, Context context) {
 
       super(itemView);
+      this.context = context;
+      this.productList = productList;
 
+      itemView.setOnClickListener(this);
+
+      userProductDescFragment = new UserProductDescFragment();
       imageViewProductImage = itemView.findViewById(R.id.imageViewProductImage);
       textViewProductName = itemView.findViewById(R.id.textViewProductName);
       textViewProductQuantity = itemView.findViewById(R.id.textViewProductQuantity);
@@ -102,5 +109,37 @@ public class ProductsRecyclerAdapter extends
       textViewProductDesc = itemView.findViewById(R.id.textViewProductDesc);
     }
 
+    @Override
+    public void onClick(View v) {
+
+      int position = getAdapterPosition();
+      Product product = this.productList.get(position);
+
+      Bundle b = new Bundle();
+
+      b.putByteArray("product_image", product.getProduct_image());
+      b.putString("product_name", product.getProduct_name());
+      b.putString("product_quantity", product.getProduct_qauntity());
+      b.putString("product_price", product.getProduct_price());
+      b.putString("product_desc", product.getProduct_desc());
+
+      userProductDescFragment.setArguments(b);
+
+      AppCompatActivity activity = (AppCompatActivity) v.getContext();
+
+      FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.first_layout, userProductDescFragment);
+      ft.addToBackStack("UserMain");
+      ft.commit();
+
+    }
+  }
+
+
+  public void setFilter(List<Product> newProductList) {
+
+    productList = new ArrayList<>();
+    productList.addAll(newProductList);
+    notifyDataSetChanged();
   }
 }

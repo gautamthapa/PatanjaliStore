@@ -1,6 +1,7 @@
 package com.strontech.imgautam.patanjalistorenew.merfragments;
 
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.strontech.imgautam.patanjalistorenew.R;
 import com.strontech.imgautam.patanjalistorenew.adapters.ProductsRecyclerAdapter;
 import com.strontech.imgautam.patanjalistorenew.model.Product;
 import com.strontech.imgautam.patanjalistorenew.sql.UserDatabaseHelper;
-import com.strontech.imgautam.patanjalistorenew.userfragments.UserMainFragment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class ShowProductFragment extends Fragment {
   private ProductsRecyclerAdapter productsRecyclerAdapter;
   private UserDatabaseHelper databaseHelper;
   private Toolbar toolbar;
+  ProgressDialog pd;
   View v;
   public ShowProductFragment() {
     // Required empty public constructor
@@ -66,11 +68,11 @@ public class ShowProductFragment extends Fragment {
    */
   private void initObjects(){
 
-    toolbar.setTitle("Products");
-    toolbar.setTitleTextColor(getResources().getColor(R.color.textWhiteColor));
+      toolbar.setTitle("Products");
+      toolbar.setTitleTextColor(getResources().getColor(R.color.textWhiteColor));
 
     productList=new ArrayList<>();
-    productsRecyclerAdapter=new ProductsRecyclerAdapter(productList);
+    productsRecyclerAdapter=new ProductsRecyclerAdapter(productList,getContext());
 
     RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity().getApplicationContext());
     recyclerViewShowProducts.setLayoutManager(layoutManager);
@@ -80,8 +82,6 @@ public class ShowProductFragment extends Fragment {
     recyclerViewShowProducts.setAdapter(productsRecyclerAdapter);
     databaseHelper=new UserDatabaseHelper(getActivity());
 
-   // UserMainFragment userMainFragment=new UserMainFragment();
-    //userMainFragment.getDataFromSQLite();
     getDataFromSQLite();
 
   }
@@ -95,10 +95,18 @@ public class ShowProductFragment extends Fragment {
     new AsyncTask<Void, Void, Void>(){
 
       @Override
+      protected void onPreExecute() {
+        pd = new ProgressDialog(getActivity());
+        pd.setMessage("Please wait..");
+        pd.show();
+        super.onPreExecute();
+      }
+
+      @Override
       protected Void doInBackground(Void... voids) {
         productList.clear();
-        productList.addAll(databaseHelper.getAllProductExceptDesc());
-
+        productList.addAll(databaseHelper.getAllProducts());
+       // productsRecyclerAdapter.notifyDataSetChanged();
         return null;
       }
 
@@ -107,6 +115,7 @@ public class ShowProductFragment extends Fragment {
       protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         productsRecyclerAdapter.notifyDataSetChanged();
+        pd.dismiss();
       }
     }.execute();
   }

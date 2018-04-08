@@ -80,7 +80,11 @@ public class InputValidation {
       textInputLayout.setError(message);
       hideKeyboardFrom(textInputEditText2);
       return false;
-    }else {
+    }else {/**
+   * method to hide keyboard
+   *
+   * @param view
+   * */
       textInputLayout.setErrorEnabled(false);
     }
     return true;
